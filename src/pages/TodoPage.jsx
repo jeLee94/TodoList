@@ -10,9 +10,7 @@ import Header from '../components/header/header';
 const TodoPage = () => {
   const dispatch = useDispatch();
   let { todos } = useSelector((state) => state.todo);
-  // console.log(todos);
   const [title, setTitle] = useState('');
-  // const [contents, setContents] = useState('');
 
   // input에 내용 입력시 제목 셋팅
   const onSetTodoHandler = (event) => {
@@ -25,8 +23,7 @@ const TodoPage = () => {
     if (title === '') {
       alert('내용을 추가해주세요.');
     } else {
-      setTitle(''); //저장되어있는 제목, 내용 초기화
-      // setContents('');
+      setTitle(''); //저장되어있는 제목 초기화
       dispatch(
         setTodo({
           id: uuid(),
@@ -41,8 +38,6 @@ const TodoPage = () => {
   // 상태 변경함수
   const onChangeHandler = ({ e, todo }) => {
     todo.isDone = !todo.isDone;
-    // /todos = todos.filter((t) => t !== todo);
-
     dispatch(updateTodo());
   };
 
@@ -53,33 +48,57 @@ const TodoPage = () => {
         submitHandler={onSubmitTodoHandler}
         inputHandler={onSetTodoHandler}
       />
-      {/* <input type='checkbox' onClick={(e) => (e.target.checked = true)} /> */}
-      <h2>Working</h2>
+      <div
+        style={{
+          display: 'flex',
+          height: '100%',
+          alignItems: 'baseline',
+        }}
+      >
+        <div
+          style={{
+            width: '600px',
+            display: 'flex',
+            flexDirection: 'column',
 
-      {todos.map((todo) => {
-        if (!todo.isDone)
-          //false
-          return (
-            <Todo
-              todo={todo}
-              key={todo.id}
-              changeHandler={onChangeHandler}
-              name='isNotDone'
-            />
-          );
-      })}
-      <h2>Done</h2>
-      {todos.map((todo) => {
-        if (todo.isDone)
-          return (
-            <Todo
-              todo={todo}
-              key={todo.id}
-              changeHandler={onChangeHandler}
-              name='isDone'
-            />
-          );
-      })}
+            alignItems: 'center',
+          }}
+        >
+          <h2>Working</h2>
+          {todos.map((todo) => {
+            if (!todo.isDone)
+              return (
+                <Todo
+                  todo={todo}
+                  key={todo.id}
+                  changeHandler={onChangeHandler}
+                  name='isNotDone'
+                />
+              );
+          })}
+        </div>
+        <div
+          style={{
+            width: '600px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <h2>Done</h2>
+          {todos.map((todo) => {
+            if (todo.isDone)
+              return (
+                <Todo
+                  todo={todo}
+                  key={todo.id}
+                  changeHandler={onChangeHandler}
+                  name='isDone'
+                />
+              );
+          })}
+        </div>
+      </div>
     </div>
   );
 };

@@ -30,7 +30,9 @@ export default function Todo(props) {
           />
         )}
         {/*Path Varialble 사용*/}
-        <Link to={`/contents/${todo.id}`}>{todo.title}</Link>
+        <Link to={`/contents/${todo.id}`} className='Link'>
+          {todo.title}
+        </Link>
       </p>
     </div>
   );

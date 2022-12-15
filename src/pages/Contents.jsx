@@ -17,7 +17,7 @@ const Contents = () => {
   const [contents, setContents] = useState('');
   // input 입력시 제목,내용 셋팅
   //Todo1: input창 클릭 안하고 완료하면 내용 사라지는 문제
-  //Todo2: 제목만 수정시(내용은 클릭만했을때) 화면 순서 달라지는 문제
+
   const onSetTodoHandler = (event) => {
     const { value } = event.target;
     if (event.target.name === 'title') setTitle(value); //제목설정
@@ -34,8 +34,6 @@ const Contents = () => {
   // 상태 변경함수
   const onModifyHandler = (child) => {
     setModify(!modify);
-    console.log(child);
-    console.log(title, contents);
     if (child === '완료') {
       dispatch(updateTodo({ id: param.id, title, contents }));
       todo.contents = contents;
