@@ -1,6 +1,8 @@
+import uuid from 'react-uuid';
 //Action Value
 const SET_TODO = 'SET_TODO';
 const UPDATE_TODO = 'UPDATE_TODO';
+const DELETE_TODO = 'DELETE_TODO';
 
 //Action Creator
 export const setTodo = (payload) => {
@@ -17,17 +19,24 @@ export const updateTodo = (payload) => {
   };
 };
 
+export const deleteTodo = (payload) => {
+  return {
+    type: DELETE_TODO,
+    payload,
+  };
+};
+
 //Initial State
 const initialState = {
   todos: [
     {
-      id: Date.now(),
+      id: uuid(),
       title: '리액트 투두1',
       contents: '리액트를 공부해봅시다1',
       isDone: false,
     },
     {
-      id: Date.now() + 1,
+      id: uuid(),
       title: '리액트 투두2',
       contents: '리액트를 공부해봅시다2',
       isDone: true,
@@ -39,16 +48,22 @@ const initialState = {
 const todos = (state = initialState, action) => {
   switch (action.type) {
     case SET_TODO: {
-      // console.log(state);
+      console.log(state, action.payload);
       return {
         ...state,
         todos: [...state.todos, action.payload],
       };
     }
     case UPDATE_TODO: {
-      // console.log(state);
-      state.todos.isDone = action.payload;
-      return { ...state, todos: [...state.todos] };
+      return {
+        ...state,
+        todos: [...state.todos],
+      };
+    }
+    case DELETE_TODO: {
+      return {
+        todos: state.todos.filter((todo) => todo.id !== action.payload.id),
+      };
     }
     default:
       return state;

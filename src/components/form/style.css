@@ -9,7 +9,7 @@ form {
 }
 
 .Input_area {
-  width: 700px;
+  padding-left: 20px;
   height: 30px;
 }
 .Input_area > input {

@@ -12,7 +12,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<TodoPage />} />
-        <Route path='/contents' element={<Contents />} />
+        <Route path='contents/:id' element={<Contents />} />
       </Routes>
     </BrowserRouter>
   );

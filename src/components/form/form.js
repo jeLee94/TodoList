@@ -6,9 +6,17 @@ export default function Form(props) {
   return (
     <div>
       <form
+        onKeyDown={(e) => {
+          console.log(e);
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            submitHandler();
+            // e.target[1].value = ''; //input창 초기화
+          }
+        }}
         onSubmit={(e) => {
           e.preventDefault();
-          submitHandler();
+          submitHandler(e);
           e.target[0].value = ''; //input창 초기화
           // e.target[1].value = ''; //input창 초기화
         }}
