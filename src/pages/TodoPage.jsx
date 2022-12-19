@@ -12,9 +12,10 @@ const TodoPage = () => {
   let { todos } = useSelector((state) => state.todo);
   const [title, setTitle] = useState('');
 
-  // input에 내용 입력시 제목 셋팅
+  // input에 내용 입력시 제목 셋팅F
   const onSetTodoHandler = (event) => {
     const { value } = event.target;
+    console.log('name', event.target.name);
     if (event.target.name === 'title') setTitle(value); //제목설정
   };
 
@@ -60,7 +61,6 @@ const TodoPage = () => {
             width: '600px',
             display: 'flex',
             flexDirection: 'column',
-
             alignItems: 'center',
           }}
         >

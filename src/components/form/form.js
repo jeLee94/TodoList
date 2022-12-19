@@ -6,19 +6,10 @@ export default function Form(props) {
   return (
     <div>
       <form
-        onKeyDown={(e) => {
-          console.log(e);
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            submitHandler();
-            // e.target[1].value = ''; //input창 초기화
-          }
-        }}
         onSubmit={(e) => {
           e.preventDefault();
           submitHandler(e);
           e.target[0].value = ''; //input창 초기화
-          // e.target[1].value = ''; //input창 초기화
         }}
       >
         <p className='Input_area'>
@@ -26,13 +17,11 @@ export default function Form(props) {
           <input
             type='text'
             name='title'
-            onBlur={(e) => {
+            onChange={(e) => {
+              console.log(e);
               inputHandler(e);
             }}
           />
-
-          {/* <label> 내용 </label>
-          <input type='text' name='contents' onBlur={(e) => inputHandler(e)} /> */}
         </p>
         <p className='Btn'>
           <input type='submit' value='추가' />

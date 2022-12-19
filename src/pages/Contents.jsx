@@ -36,8 +36,12 @@ const Contents = () => {
     setModify(!modify);
     if (child === '완료') {
       dispatch(updateTodo({ id: param.id, title, contents }));
+      console.log(`param.id,${param.id} title,${title}, contents,${contents}`);
       todo.contents = contents;
       todo.title = title;
+    } else {
+      setTitle(todo.title);
+      setContents(todo.contents);
     }
   };
 
@@ -65,7 +69,7 @@ const Contents = () => {
                 name='title'
                 type='text'
                 defaultValue={todo.title}
-                onBlur={(e) => {
+                onChange={(e) => {
                   e.preventDefault();
                   onSetTodoHandler(e);
                 }}
@@ -75,7 +79,7 @@ const Contents = () => {
               <textarea
                 name='contents'
                 defaultValue={todo.contents}
-                onBlur={(e) => {
+                onChange={(e) => {
                   e.preventDefault();
                   onSetTodoHandler(e);
                 }}
