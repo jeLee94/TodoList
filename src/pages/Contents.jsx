@@ -1,62 +1,67 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTodo, updateTodo } from '../redux/modules/todo';
 import { useState } from 'react';
 import CustomBtn from '../components/button/button';
 import styled from 'styled-components';
+import { __deleteTodo, __updateTodo } from '../redux/modules/todoSlice';
 
 const Contents = () => {
   const param = useParams();
   const dispatch = useDispatch();
   const navigation = useNavigate();
-  let { todos } = useSelector((state) => state.todo);
+  let { todos } = useSelector((state) => state.todos);
   const todo = todos.find((todo) => todo.id === param.id);
   const [modify, setModify] = useState(false); //수정 완료 버튼 변경시 사용
   const [modifiedTitle, setModifiedTitle] = useState('');
   const [modifiedContents, setModifiedContents] = useState('');
-  // input 입력시 제목,내용 셋팅
-  //Todo1: input창 클릭 안하고 완료하면 내용 사라지는 문제
+
+  //Todo1: 삭제하면 404에러 --> 갑자기 잘됨.. 뭘 수정했지..?
+  //Todo2: 체크버튼 에러 --> 처음에 !todo.isDone값만 넘기는 걸로 수정했는데 __updateTodo에 id값까지 넣어줬어야 했음
+  //Todo3: 수정 에러  --> 원래 todo의 데이터에 직접접근해서 수정했는데 서버를 꼈더니 read only 객체가 돼버렸음
+  // 원래 updateTodo안에 payload로 id: param.id, modifiedtitle, modifiedcontents로 넣었는데
+  // 서버에서 기존 데이터에 modifiedTitle, modifiedContents 데이터가 붙어서 들어감
+  // 그래서 id: parma.id, title: modifiedTitme, contents:midifiedContents로 수정했더니 됐음
+  //Todo4: 스타일드 컴포넌트로 수정
+  //Todo5: 최적화(useMemo)
+  //Todo6: 삭제할 때 window.confirm
 
   const onSetTodoHandler = (event) => {
-    const { value } = event.target;
+    const value = event.target.value;
     if (event.target.name === 'title') setModifiedTitle(value); //제목설정
     else if (event.target.name === 'contents') {
       setModifiedContents(value); //내용설정
     }
   };
+
   //삭제 함수
   const onDeleteHandler = () => {
-    dispatch(deleteTodo(param));
-    navigation('/');
+    const message = '정말 삭제하시겠습니까?';
+    if (window.confirm(message)) {
+      dispatch(__deleteTodo(param.id));
+      navigation('/');
+    } else {
+      return false;
+    }
   };
-
-  // // 상태 변경함수
-  // const onModifyHandler = (child) => {
-  //   setModify(!modify);
-  //   console.log(child);
-  //   console.log(modifiedTitle, modifiedContents);
-  //   if (child === '완료') {
-  //     dispatch(updateTodo({ id: param.id, modifiedTitle, modifiedContents }));
-  //     console.log(`title: ${modifiedTitle}, contents: ${modifiedContents}`);
-  //     todo.contents = modifiedContents;
-  //     todo.title = modifiedTitle;
-  //   }
-  // };
 
   // 상태 변경함수
   const onModifyHandler = (child) => {
     setModify(!modify);
     if (child === '완료') {
-      dispatch(updateTodo({ id: param.id, modifiedTitle, modifiedContents }));
-      todo.contents = modifiedContents;
-      todo.title = modifiedTitle;
+      dispatch(
+        __updateTodo({
+          id: param.id,
+          title: modifiedTitle,
+          contents: modifiedContents,
+        })
+      );
     } else {
       setModifiedTitle(todo.title);
       setModifiedContents(todo.contents);
     }
   };
-
+  console.log(todo);
   return (
     <StContainer>
       <StDialog>
