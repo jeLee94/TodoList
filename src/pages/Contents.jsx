@@ -13,16 +13,16 @@ const Contents = () => {
   let { todos } = useSelector((state) => state.todo);
   const todo = todos.find((todo) => todo.id === param.id);
   const [modify, setModify] = useState(false); //수정 완료 버튼 변경시 사용
-  const [title, setTitle] = useState('');
-  const [contents, setContents] = useState('');
+  const [modifiedTitle, setModifiedTitle] = useState('');
+  const [modifiedContents, setModifiedContents] = useState('');
   // input 입력시 제목,내용 셋팅
   //Todo1: input창 클릭 안하고 완료하면 내용 사라지는 문제
 
   const onSetTodoHandler = (event) => {
     const { value } = event.target;
-    if (event.target.name === 'title') setTitle(value); //제목설정
+    if (event.target.name === 'title') setModifiedTitle(value); //제목설정
     else if (event.target.name === 'contents') {
-      setContents(value); //내용설정
+      setModifiedContents(value); //내용설정
     }
   };
   //삭제 함수
@@ -31,17 +31,29 @@ const Contents = () => {
     navigation('/');
   };
 
+  // // 상태 변경함수
+  // const onModifyHandler = (child) => {
+  //   setModify(!modify);
+  //   console.log(child);
+  //   console.log(modifiedTitle, modifiedContents);
+  //   if (child === '완료') {
+  //     dispatch(updateTodo({ id: param.id, modifiedTitle, modifiedContents }));
+  //     console.log(`title: ${modifiedTitle}, contents: ${modifiedContents}`);
+  //     todo.contents = modifiedContents;
+  //     todo.title = modifiedTitle;
+  //   }
+  // };
+
   // 상태 변경함수
   const onModifyHandler = (child) => {
     setModify(!modify);
     if (child === '완료') {
-      dispatch(updateTodo({ id: param.id, title, contents }));
-      console.log(`param.id,${param.id} title,${title}, contents,${contents}`);
-      todo.contents = contents;
-      todo.title = title;
+      dispatch(updateTodo({ id: param.id, modifiedTitle, modifiedContents }));
+      todo.contents = modifiedContents;
+      todo.title = modifiedTitle;
     } else {
-      setTitle(todo.title);
-      setContents(todo.contents);
+      setModifiedTitle(todo.title);
+      setModifiedContents(todo.contents);
     }
   };
 

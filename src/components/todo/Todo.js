@@ -1,4 +1,3 @@
-import { toBeChecked } from '@testing-library/jest-dom/dist/matchers';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +8,7 @@ export default function Todo(props) {
   const { todo, name, changeHandler } = props;
   // console.log(todo.id);
   //체크박스가 event.target.checked가 true임에도 해제되어있어서 임의로 name이 isDone이면 defaultChecked되도록 구현함
-  //렌더링이 안돼서!!
+  //렌더링이 안돼서!! 12/19 수정완료
   return (
     <div className='Box'>
       <p>
