@@ -1,45 +1,55 @@
 /* eslint-disable array-callback-return */
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import uuid from 'react-uuid';
-import { setTodo, updateTodo } from '../redux/modules/todo';
 import Form from '../components/form/form';
 import Todo from '../components/todo/Todo';
 import Header from '../components/header/header';
+import { __getTodo, __setTodo, __updateTodo } from '../redux/modules/todoSlice';
 
 const TodoPage = () => {
   const dispatch = useDispatch();
-  let { todos } = useSelector((state) => state.todo);
+  let { isLoading, error, todos } = useSelector((state) => state.todos);
   const [title, setTitle] = useState('');
 
+  useEffect(() => {
+    dispatch(__getTodo());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <div>로딩 중....</div>;
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
   // input에 내용 입력시 제목 셋팅F
   const onSetTodoHandler = (event) => {
     const { value } = event.target;
-    console.log('name', event.target.name);
+    // console.log('name', event.target.name);
     if (event.target.name === 'title') setTitle(value); //제목설정
   };
 
   // /todo 추가 버튼
   const onSubmitTodoHandler = () => {
+    let newData = {
+      id: uuid(),
+      title,
+      contents: '',
+      isDone: false,
+    };
     if (title === '') {
       alert('내용을 추가해주세요.');
+      return;
     } else {
+      dispatch(__setTodo(newData));
       setTitle(''); //저장되어있는 제목 초기화
-      dispatch(
-        setTodo({
-          id: uuid(),
-          title,
-          contents: '',
-          isDone: false,
-        })
-      );
     }
   };
 
   // 상태 변경함수
   const onChangeHandler = ({ e, todo }) => {
-    todo.isDone = !todo.isDone;
-    dispatch(updateTodo());
+    dispatch(__updateTodo({ id: todo.id, isDone: !todo.isDone }));
   };
 
   return (

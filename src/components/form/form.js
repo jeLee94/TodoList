@@ -18,7 +18,7 @@ export default function Form(props) {
             type='text'
             name='title'
             onChange={(e) => {
-              console.log(e);
+              // console.log(e);
               inputHandler(e);
             }}
           />
