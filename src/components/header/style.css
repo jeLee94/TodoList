@@ -1,0 +1,23 @@
+.header {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  height: 100px;
+  font-size: 200%;
+  font-weight: bold;
+}
+
+.img {
+  vertical-align: bottom;
+  justify-content: baseline;
+  height: 70px;
+  background-size: cover;
+  background-position: center;
+  background-color: #fff6c3;
+  border-radius: 100px;
+}
+
+.title {
+  display: flex;
+  gap: 10px;
+}
