@@ -1,5 +1,3 @@
-// src/redux/modules/counterSlice.js
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -9,7 +7,6 @@ export const __getTodo = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.get('http://localhost:3001/todos');
-
       return data.data && thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -22,7 +19,6 @@ export const __setTodo = createAsyncThunk(
   'todos/setTodo',
   async (payload, thunkAPI) => {
     try {
-      console.log(payload);
       await axios.post('http://localhost:3001/todos', payload);
       const data = await axios.get('http://localhost:3001/todos');
       return thunkAPI.fulfillWithValue(data.data);
@@ -37,7 +33,6 @@ export const __updateTodo = createAsyncThunk(
   'todos/setTodo',
   async (payload, thunkAPI) => {
     try {
-      console.log('__updateTodo:', payload);
       await axios.patch(`http://localhost:3001/todos/${payload.id}`, payload);
       const data = await axios.get('http://localhost:3001/todos');
       return thunkAPI.fulfillWithValue(data.data);
@@ -52,10 +47,7 @@ export const __deleteTodo = createAsyncThunk(
   'todos/setTodo',
   async (payload, thunkAPI) => {
     try {
-      console.log('__deleteTodo:', payload);
-
       await axios.delete(`http://localhost:3001/todos/${payload}`);
-
       const data = await axios.get('http://localhost:3001/todos');
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -74,13 +66,6 @@ const todos = createSlice({
   name: 'todos',
   initialState,
   reducers: {
-    // getTodo: (state, action) => {
-    //   state.todos = [...state.todos];
-    // },
-    // setTodo: (state, action) => {
-    //   state.todos = [...state.todos, action.payload];
-    // },
-
     updateTodo: (state, action) => {
       state.todos = [...state.todos];
     },

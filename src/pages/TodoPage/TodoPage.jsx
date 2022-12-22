@@ -2,10 +2,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import uuid from 'react-uuid';
-import Form from '../components/form/form';
-import Todo from '../components/todo/Todo';
-import Header from '../components/header/header';
-import { __getTodo, __setTodo, __updateTodo } from '../redux/modules/todoSlice';
+import Form from '../../components/Form';
+import Todo from '../../components/Todo';
+import Header from '../../components/Header';
+import {
+  __getTodo,
+  __setTodo,
+  __updateTodo,
+} from '../../redux/modules/todoSlice';
 
 const TodoPage = () => {
   const dispatch = useDispatch();
@@ -23,10 +27,10 @@ const TodoPage = () => {
   if (error) {
     return <div>{error.message}</div>;
   }
-  // input에 내용 입력시 제목 셋팅F
+
+  // input에 내용 입력시 제목 셋팅
   const onSetTodoHandler = (event) => {
     const { value } = event.target;
-    // console.log('name', event.target.name);
     if (event.target.name === 'title') setTitle(value); //제목설정
   };
 
@@ -59,6 +63,7 @@ const TodoPage = () => {
         submitHandler={onSubmitTodoHandler}
         inputHandler={onSetTodoHandler}
       />
+
       <div
         style={{
           display: 'flex',
