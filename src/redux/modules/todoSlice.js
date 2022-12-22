@@ -6,7 +6,7 @@ export const __getTodo = createAsyncThunk(
   'todos/getTodo',
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get('http://localhost:3001/todos');
+      const data = await axios.get(`${process.env.REACT_APP_URL}`);
       return data.data && thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -19,8 +19,8 @@ export const __setTodo = createAsyncThunk(
   'todos/setTodo',
   async (payload, thunkAPI) => {
     try {
-      await axios.post('http://localhost:3001/todos', payload);
-      const data = await axios.get('http://localhost:3001/todos');
+      await axios.post(`${process.env.REACT_APP_URL}`, payload);
+      const data = await axios.get(`${process.env.REACT_APP_URL}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -33,8 +33,8 @@ export const __updateTodo = createAsyncThunk(
   'todos/setTodo',
   async (payload, thunkAPI) => {
     try {
-      await axios.patch(`http://localhost:3001/todos/${payload.id}`, payload);
-      const data = await axios.get('http://localhost:3001/todos');
+      await axios.patch(`${process.env.REACT_APP_URL}/${payload.id}`, payload);
+      const data = await axios.get(`${process.env.REACT_APP_URL}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -47,8 +47,8 @@ export const __deleteTodo = createAsyncThunk(
   'todos/setTodo',
   async (payload, thunkAPI) => {
     try {
-      await axios.delete(`http://localhost:3001/todos/${payload}`);
-      const data = await axios.get('http://localhost:3001/todos');
+      await axios.delete(`${process.env.REACT_APP_URL}/${payload}`);
+      const data = await axios.get(`${process.env.REACT_APP_URL}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
