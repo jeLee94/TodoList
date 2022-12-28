@@ -1,16 +1,39 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import uuid from "react-uuid";
 import styled from "styled-components";
+import { __setTodo } from "../redux/modules/todoSlice";
 
-export default function Form(props) {
-  const { submitHandler, inputHandler } = props;
+export default function Form() {
+  const dispatch = useDispatch();
+  const [title, setTitle] = React.useState("");
+
+  const inputHandler = (e) => {
+    setTitle(e.target.value);
+  };
+
+  // /todo 추가 버튼
+  const onSubmitTodoHandler = (e) => {
+    e.preventDefault();
+
+    let newTodo = {
+      id: uuid(),
+      title,
+      contents: "",
+      isDone: false,
+    };
+
+    if (title === "") {
+      alert("내용을 추가해주세요.");
+      return;
+    } else {
+      dispatch(__setTodo(newTodo));
+      setTitle(""); //저장되어있는 제목 초기화
+    }
+  };
+
   return (
-    <FormContainer
-      onSubmit={(e) => {
-        e.preventDefault();
-        submitHandler(e);
-        e.target[0].value = ""; //input창 초기화
-      }}
-    >
+    <FormContainer onSubmit={onSubmitTodoHandler}>
       <InputContainer>
         <InputLabel htmlFor="title">TODO</InputLabel>
         <TodoInput
@@ -20,6 +43,7 @@ export default function Form(props) {
           onChange={(e) => {
             inputHandler(e);
           }}
+          value={title}
           autoFocus
           placeholder="할 일을 입력하세요."
         />
