@@ -13,8 +13,8 @@ const GlobalStyle = createGlobalStyle`
     align-items: center;
     font-family: "Pretendard-Regular";
 
-    padding: 10px;
-    margin: 10px;
+    padding: 5px;
+    margin: 5px;
     border: 1px solid grey;
   }
 
