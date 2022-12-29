@@ -1,51 +1,78 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import { useDispatch } from "react-redux";
+import uuid from "react-uuid";
+import styled from "styled-components";
+import { __setTodo } from "../redux/modules/todoSlice";
 
-export default function Form(props) {
-  const { submitHandler, inputHandler } = props;
+export default function Form() {
+  const dispatch = useDispatch();
+  const [title, setTitle] = React.useState("");
+
+  const inputHandler = (e) => {
+    setTitle(e.target.value);
+  };
+
+  // /todo 추가 버튼
+  const onSubmitTodoHandler = (e) => {
+    e.preventDefault();
+
+    let newTodo = {
+      id: uuid(),
+      title,
+      contents: "",
+      isDone: false,
+    };
+
+    if (title === "") {
+      alert("내용을 추가해주세요.");
+      return;
+    } else {
+      dispatch(__setTodo(newTodo));
+      setTitle(""); //저장되어있는 제목 초기화
+    }
+  };
+
   return (
-    <div>
-      <StForm
-        onSubmit={(e) => {
-          e.preventDefault();
-          submitHandler(e);
-          e.target[0].value = ''; //input창 초기화
-        }}
-      >
-        <InputArea>
-          <label>TODO </label>
-          <Input
-            type='text'
-            name='title'
-            onChange={(e) => {
-              inputHandler(e);
-            }}
-          />
-        </InputArea>
-        <Btn>
-          <Submit type='submit' value='추가' />
-        </Btn>
-      </StForm>
-    </div>
+    <FormContainer onSubmit={onSubmitTodoHandler}>
+      <InputContainer>
+        <InputLabel htmlFor="title">TODO</InputLabel>
+        <TodoInput
+          type="text"
+          name="title"
+          id="title"
+          onChange={(e) => {
+            inputHandler(e);
+          }}
+          value={title}
+          autoFocus
+          placeholder="할 일을 입력하세요."
+        />
+      </InputContainer>
+      <TodoAddButton>
+        <Submit type="submit" value="추가" />
+      </TodoAddButton>
+    </FormContainer>
   );
 }
 
-const StForm = styled.form`
+const FormContainer = styled.form`
   background-color: #345e44;
   color: beige;
+
   text-align: center;
   font-size: 20px;
+
   display: flex;
   justify-content: space-between;
+
   border-radius: 10px;
 `;
 
-const InputArea = styled.p`
-  padding-left: 20px;
-  height: 30px;
-`;
+const InputContainer = styled.div``;
 
-const Input = styled.input`
+const InputLabel = styled.label``;
+
+const TodoInput = styled.input`
   width: 295px;
   height: 30px;
   border: 0px;
@@ -59,7 +86,7 @@ const Submit = styled.input`
   background-color: #bbddc8;
 `;
 
-const Btn = styled.button`
+const TodoAddButton = styled.button`
   width: 250px;
   background-color: #345e44;
   border: 0;

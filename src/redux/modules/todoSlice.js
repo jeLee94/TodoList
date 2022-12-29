@@ -1,13 +1,13 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 //데이터읽기
 export const __getTodo = createAsyncThunk(
-  'todos/getTodo',
+  "todos/__getTodo",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_URL}`);
-      return data.data && thunkAPI.fulfillWithValue(data.data);
+      const { data } = await axios.get(`${process.env.REACT_APP_URL}`);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -16,12 +16,15 @@ export const __getTodo = createAsyncThunk(
 
 //데이터추가
 export const __setTodo = createAsyncThunk(
-  'todos/setTodo',
+  "todos/__setTodo",
   async (payload, thunkAPI) => {
     try {
-      await axios.post(`${process.env.REACT_APP_URL}`, payload);
-      const data = await axios.get(`${process.env.REACT_APP_URL}`);
-      return thunkAPI.fulfillWithValue(data.data);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_URL}`,
+        payload
+      );
+      console.log("data ", data);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -30,7 +33,7 @@ export const __setTodo = createAsyncThunk(
 
 //데이터변경
 export const __updateTodo = createAsyncThunk(
-  'todos/setTodo',
+  "todos/__updateTodo",
   async (payload, thunkAPI) => {
     try {
       await axios.patch(`${process.env.REACT_APP_URL}/${payload.id}`, payload);
@@ -44,7 +47,7 @@ export const __updateTodo = createAsyncThunk(
 
 //데이터 삭제
 export const __deleteTodo = createAsyncThunk(
-  'todos/setTodo',
+  "todos/__deleteTodo",
   async (payload, thunkAPI) => {
     try {
       await axios.delete(`${process.env.REACT_APP_URL}/${payload}`);
@@ -63,7 +66,7 @@ const initialState = {
 };
 
 const todos = createSlice({
-  name: 'todos',
+  name: "todos",
   initialState,
   reducers: {
     updateTodo: (state, action) => {
@@ -90,7 +93,7 @@ const todos = createSlice({
     },
     [__setTodo.fulfilled]: (state, action) => {
       state.isLoading = false; // 네트워크 요청이 끝났으니, false로 변경합니다.
-      state.todos = action.payload; // Store에 있는 posts에 서버에서 가져온 posts를 넣습니다.
+      state.todos = [...state.todos, action.payload]; // Store에 있는 posts에 서버에서 가져온 posts를 넣습니다.
     },
     [__setTodo.rejected]: (state, action) => {
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.

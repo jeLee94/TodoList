@@ -1,14 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import jelee from './img/jelee.png';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import jelee from "./img/jelee.png";
 
 export default function Header() {
   return (
     <StHeader>
-      <Link to={'/'} style={{ textDecoration: 'none', color: 'black' }}>
+      <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
         <Title>
-          <Image src={jelee} alt=''></Image>
+          <Image src={jelee} alt=""></Image>
           <span>JELEE's To-do List</span>
         </Title>
       </Link>
@@ -38,5 +38,4 @@ const Image = styled.img`
 
 const Title = styled.p`
   display: flex;
-  gap: 10px;
 `;
